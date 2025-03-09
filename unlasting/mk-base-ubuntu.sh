@@ -47,6 +47,13 @@ else
     echo -e "\033[47;36m set default ARCH=arm64...... \033[0m"
 fi
 
+FIRMWARE_DIR="/nvme/armbian-firmware"
+
+if [ ! -d ${FIRMWARE_DIR} ]; then
+	echo -e "\e[31m No ${FIRMWARE_DIR} \e[0m"
+	exit 1
+fi
+
 TARGET_ROOTFS_DIR="binary"
 
 sudo rm -rf $TARGET_ROOTFS_DIR/
@@ -247,6 +254,9 @@ if [[ "$ARCH" == "armhf" ]]; then
 elif [[ "$ARCH" == "arm64" ]]; then
     sudo cp -f overlay-debug/usr/local/share/adb/adbd-64 $TARGET_ROOTFS_DIR/usr/bin/adbd
 fi
+
+# firmware
+sudo cp -rf ${FIRMWARE_DIR}/* $TARGET_ROOTFS_DIR/usr/lib/firmware/*
 
 ./ch-mount.sh -u $TARGET_ROOTFS_DIR
 
