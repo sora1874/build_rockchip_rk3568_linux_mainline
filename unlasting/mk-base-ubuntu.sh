@@ -131,7 +131,7 @@ fi
 \${APT_INSTALL} net-tools openssh-server ifupdown alsa-utils ntp network-manager gdb inetutils-ping libssl-dev \
     vsftpd tcpdump can-utils i2c-tools strace vim iperf3 ethtool netplan.io toilet htop pciutils usbutils curl \
     whiptail gnupg bc xinput gdisk parted gcc sox libsox-fmt-all gpiod libgpiod-dev python3-pip python3-libgpiod \
-    guvcview u-boot-tools
+    guvcview u-boot-tools fdisk
 
 \${APT_INSTALL} ttf-wqy-zenhei xfonts-intl-chinese
 
@@ -157,7 +157,7 @@ if [[ "$TARGET" == "gnome-full" ||  "$TARGET" == "xfce-full" ]]; then
     locale-gen zh_CN.UTF-8
 
     # Export env vars
-    echo "LC_ALL=zh_CN.UTF-8" >> /etc/environment    
+    echo "LC_ALL=zh_CN.UTF-8" >> /etc/environment
     echo "LANG=zh_CN.UTF-8" >> /etc/environment
     echo "LANGUAGE=zh_CN:zh:en_US:en" >> /etc/environment
 
@@ -245,10 +245,13 @@ sync
 EOF
 
 sudo cp -rpf overlay-debug/* $TARGET_ROOTFS_DIR/
+
+echo -e "\e[32m tty service \e[0m"
 ## hack the serial
 sudo cp -f service/serial-getty@.service $TARGET_ROOTFS_DIR/lib/systemd/system/serial-getty@.service
 
 # adb
+echo -e "\e[32m adbd \e[0m"
 if [[ "$ARCH" == "armhf" ]]; then
     sudo cp -f overlay-debug/usr/local/share/adb/adbd-32 $TARGET_ROOTFS_DIR/usr/bin/adbd
 elif [[ "$ARCH" == "arm64" ]]; then
@@ -256,7 +259,8 @@ elif [[ "$ARCH" == "arm64" ]]; then
 fi
 
 # firmware
-sudo cp -rf ${FIRMWARE_DIR}/* $TARGET_ROOTFS_DIR/usr/lib/firmware/*
+echo -e "\e[32m firmware \e[0m"
+sudo cp -rf ${FIRMWARE_DIR} $TARGET_ROOTFS_DIR/usr/lib/
 
 ./ch-mount.sh -u $TARGET_ROOTFS_DIR
 

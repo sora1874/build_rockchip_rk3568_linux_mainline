@@ -4,7 +4,7 @@ export WORKDIR="$(pwd)"
 export PATH="${PATH}:/sbin:/usr/sbin"
 
 IMG_FILE="deploy/unlasting-ubuntu.img"
-ROOTFS_FILE="deploy/ubuntu-base-lite-arm64-20250308.tar.gz"
+ROOTFS_FILE="deploy/ubuntu-base-lite-arm64-20250315.tar.gz"
 PARTITION_SCRIPT="config/disk-parts-minimal.sfdisk"
 BOOTFS_IMG_FILE="deploy/rk3568-ubuntu-minimal-bootfs.img"
 ROOTFS_IMG_FILE="deploy/rk3568-ubuntu-minimal-rootfs.img"

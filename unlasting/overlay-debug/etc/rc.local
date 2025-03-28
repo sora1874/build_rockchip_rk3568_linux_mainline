@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+if [ $(cat /etc/init.d/.usb_config) != "usb_adb_en" ]; then
+	echo "start set adb"
+	echo usb_adb_en > /etc/init.d/.usb_config
+fi
+
+#/usr/bin/usbdevice restart &
+#/usr/bin/adbd.sh &
+
+exit 0
